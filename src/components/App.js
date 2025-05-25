@@ -1,12 +1,42 @@
-import React from 'react';
-import IpsumViewer from './components/IpsumViewer';
+import React, { useEffect } from "react";
+import "./../styles/App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { created } from "../dataSlice";
 
-function App() {
-  return (
-    <div className="App">
-      <IpsumViewer />
-    </div>
-  );
-}
+const App = () => {
+    const dispatch = useDispatch();
+    const  data  = useSelector((state) => state);
+    console.log(data);
+    useEffect(() => {
+        dispatch(created());
+    }, []);
+    return (
+        <div>
+            <div style={{ textAlign: "center" }}>
+                <h1> A short Naration of Lorem Ipsum</h1>
+                <h4>
+                    Below Contains A title and Body gotten from
+                    <br />a random API, Please take your time to Review
+                </h4>
+            </div>
+            <ul>
+                 {data &&
+                    data.map((post, idx) => {
+                        return (
+                            <li key={idx}>
+                                <div className="title">
+                                    <strong>Title</strong> :{post.title}
+                                </div>
+                                <br />
+                                <div className="body">
+                                    <strong>Body</strong> :{post.body}
+                                </div>
+                            </li>
+                        );
+                    })}
+            </ul>
+        </div>
+    );
+};
 
 export default App;
